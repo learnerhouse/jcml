@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3b710562-190f-4699-8c0b-11ce57c18253" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/jcml/model/DB.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/jcml/model/KMeans.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/jcml/model/data.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/jcml/model/features.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/jcml/model/lab.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/jcml/model/unsupervise.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jcml/settings.py" afterPath="$PROJECT_DIR$/jcml/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jcml/urls.py" afterPath="$PROJECT_DIR$/jcml/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jcml/util/TimeTools.py" afterPath="$PROJECT_DIR$/jcml/util/TimeTools.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jcml/wsgi.py" afterPath="$PROJECT_DIR$/jcml/wsgi.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manage.py" afterPath="$PROJECT_DIR$/manage.py" />
-    </list>
+    <list default="true" id="3b710562-190f-4699-8c0b-11ce57c18253" name="Default" comment="" />
     <ignored path="jsml.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />

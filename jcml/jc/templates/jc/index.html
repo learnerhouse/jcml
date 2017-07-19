@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello jcml</title>
+    <script src="{% static "js/echarts.min.js" %}"></script>
+</head>
+<body>
+<h1>hello jcml</h1>
+<div id="tf" style="width: 600px;height:400px;"></div>
+<div id="bf" style="width: 600px;height:400px;"></div>
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('tf'));
+
+        // 指定图表的配置项和数据
+    option = {
+    title: {
+        text: '次数-频率散点图'
+    },
+    tooltip : {
+        trigger: 'axis',
+        showDelay : 0,
+        axisPointer:{
+            show: true,
+            type : 'cross',
+            lineStyle: {
+                type : 'dashed',
+                width : 1
+            }
+        },
+        zlevel: 1
+    },
+    legend: {
+        data:['爬虫','非爬虫']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataZoom : {show: true},
+            dataView : {show: true, readOnly: false},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    xAxis : [
+        {
+            type : 'value',
+            scale:true
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value',
+            scale:true
+        }
+    ],
+    series : [
+        {
+            name:'爬虫',
+            type:'scatter',
+            large: true,
+            symbolSize: 3,
+            data: (function () {
+                var d = [];
+                var len = 10000;
+                var x = 0;
+                while (len--) {
+                    x = (Math.random() * 10).toFixed(3) - 0;
+                    d.push([
+                        x,
+                        //Math.random() * 10
+                        (Math.sin(x) - x * (len % 2 ? 0.1 : -0.1) * Math.random()).toFixed(3) - 0
+                    ]);
+                }
+                console.log({{ cf2 }})
+                return  {{ cf2 }};
+            })()
+        },
+        {
+            name:'非爬虫',
+            type:'scatter',
+            large: true,
+            symbolSize: 2,
+            data: (function () {
+                console.log({{ cf1 }})
+                return {{ cf1 }};
+            })()
+        }
+    ]
+};
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+
+     // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('bf'));
+
+        // 指定图表的配置项和数据
+    option = {
+    title: {
+        text: '板块集-频率散点图'
+    },
+    tooltip : {
+        trigger: 'axis',
+        showDelay : 0,
+        axisPointer:{
+            show: true,
+            type : 'cross',
+            lineStyle: {
+                type : 'dashed',
+                width : 1
+            }
+        },
+        zlevel: 1
+    },
+    legend: {
+        data:['爬虫','非爬虫']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataZoom : {show: true},
+            dataView : {show: true, readOnly: false},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    xAxis : [
+        {
+            type : 'value',
+            scale:true
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value',
+            scale:true
+        }
+    ],
+    series : [
+        {
+            name:'爬虫',
+            type:'scatter',
+            large: true,
+            symbolSize: 3,
+            data: (function () {
+                console.log({{ bf2 }})
+                return  {{ bf2 }};
+            })()
+        },
+        {
+            name:'非爬虫',
+            type:'scatter',
+            large: true,
+            symbolSize: 2,
+            data: (function () {
+                console.log({{ bf1 }})
+                return {{ bf1 }};
+            })()
+        }
+    ]
+};
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+
+</body>
+</html>

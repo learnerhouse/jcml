@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>visit record</title>
+</head>
+<body>
+    {% for record in records %}
+        <a> {{ record.user_id }} </a>
+        <a> {{ record.bkj_id }} </a>
+        <a> {{ record.time_stamp }} </a>
+        <br>
+    {% endfor %}
+</body>
+</html>
