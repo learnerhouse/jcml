@@ -33,7 +33,7 @@
         zlevel: 1
     },
     legend: {
-        data:['爬虫','非爬虫']
+        data:['爬虫','非爬虫','userId1','userId2']
     },
     toolbox: {
         show : true,
@@ -64,19 +64,18 @@
             large: true,
             symbolSize: 3,
             data: (function () {
-                var d = [];
-                var len = 10000;
-                var x = 0;
-                while (len--) {
-                    x = (Math.random() * 10).toFixed(3) - 0;
-                    d.push([
-                        x,
-                        //Math.random() * 10
-                        (Math.sin(x) - x * (len % 2 ? 0.1 : -0.1) * Math.random()).toFixed(3) - 0
-                    ]);
-                }
-                console.log({{ cf2 }})
-                return  {{ cf2 }};
+                console.log({{ ret.cf2 }})
+                return  {{ ret.cf2 }};
+            })()
+        },
+        {
+            name:'userId1',
+            type:'scatter',
+            large: true,
+            symbolSize: 3,
+            data: (function () {
+                //console.log({{ ret.userId_cf1 }})
+                return  {{ ret.userId_cf1 }};
             })()
         },
         {
@@ -85,10 +84,20 @@
             large: true,
             symbolSize: 2,
             data: (function () {
-                console.log({{ cf1 }})
-                return {{ cf1 }};
+                console.log({{ ret.cf1 }})
+                return {{ ret.cf1 }};
             })()
-        }
+        },
+        {
+            name:'userId2',
+            type:'scatter',
+            large: true,
+            symbolSize: 3,
+            data: (function () {
+                console.log({{ ret.userId_cf2 }})
+                return  {{ ret.userId_cf2 }};
+            })()
+        },
     ]
 };
         // 使用刚指定的配置项和数据显示图表。
@@ -148,8 +157,8 @@
             large: true,
             symbolSize: 3,
             data: (function () {
-                console.log({{ bf2 }})
-                return  {{ bf2 }};
+                console.log({{ ret.bf2 }})
+                return  {{ ret.bf2 }};
             })()
         },
         {
@@ -158,8 +167,8 @@
             large: true,
             symbolSize: 2,
             data: (function () {
-                console.log({{ bf1 }})
-                return {{ bf1 }};
+                console.log({{ ret.bf1 }})
+                return {{ ret.bf1 }};
             })()
         }
     ]

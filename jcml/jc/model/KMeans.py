@@ -7,7 +7,7 @@ import json
 from numpy import *
 import matplotlib.pyplot as plt
 import features as pt
-
+import DB,features
 
 def loadDataSet(fileName):      #general function to parse tab -delimited floats
     dataMat = []                #assume last column is target value
@@ -19,7 +19,7 @@ def loadDataSet(fileName):      #general function to parse tab -delimited floats
     return dataMat
 
 def distEclud(vecA, vecB):
-    return sqrt(sum(power(vecA - vecB, 2))) #la.norm(vecA-vecB)
+    return sum(power(vecA - vecB, 2)) #la.norm(vecA-vecB)
 
 def randCent(dataSet, k):
     n = shape(dataSet)[1]
@@ -31,10 +31,11 @@ def randCent(dataSet, k):
     return centroids
 
 def kMeans(dataSet, k, distMeas=distEclud, createCent=randCent):
-    m = shape(dataSet)[0]             #获取行数
-    clusterAssment = mat(zeros((m,2)))#create mat to assign data points                                       #to a centroid, also holds SE of each point
+    m = shape(dataSet)[0]
+    clusterId_distances = mat(zeros((m,2)))
     centroids = createCent(dataSet, k)
     clusterChanged = True
+    ids = []
     while clusterChanged:
         clusterChanged = False
         for i in range(m):#for each data point assign it to the closest centroid
@@ -43,16 +44,18 @@ def kMeans(dataSet, k, distMeas=distEclud, createCent=randCent):
                 distJI = distMeas(array(centroids)[j,:],array(dataSet)[i,:])
                 if distJI < minDist:
                     minDist = distJI; minIndex = j
-            if clusterAssment[i,0] != minIndex: clusterChanged = True
-            clusterAssment[i,:] = minIndex,minDist**2
-        print centroids
-#         print nonzero(array(clusterAssment)[:,0]
-        for cent in range(k):#recalculate centroids
-                ptsInClust = dataSet[nonzero(array(clusterAssment)[:,0]==cent)[0][0]]#get all the point in this cluster
-                centroids[cent,:] = mean(ptsInClust, axis=0) #assign centroid to mean
+            if clusterId_distances[i,0] != minIndex: clusterChanged = True
+            clusterId_distances[i,:] = minIndex,minDist
 
-    id=nonzero(array(clusterAssment)[:,0]==cent)[0]
-    return centroids, clusterAssment,id
+        for cent in range(k):#recalculate centroids
+            indexs = nonzero(array(clusterId_distances)[:,0]==cent)[0]
+            ptsInClust = array([0,0])
+            for index in indexs:
+                ptsInClust += array(dataSet[index])          #get all the point in this cluster
+            centroids[cent,:] = ptsInClust/len(indexs) #assign centroid to mean
+    for cent in range(k):
+        ids.append(nonzero(array(clusterId_distances)[:,0]==cent)[0])
+    return centroids, clusterId_distances,ids
 
 def plotBestFit(dataSet,id,centroids):
 
@@ -73,11 +76,11 @@ def plotBestFit(dataSet,id,centroids):
     for k in range(n1):
           xcord3.append(cent[k,0]);ycord3.append(cent[k,1])
 
-    fig = plt.figure(fignum)
+    fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.scatter(xcord1, ycord1, s=30, c='red', marker='s')
     ax.scatter(xcord2, ycord2, s=30, c='green')
-#    ax.scatter(xcord3, ycord3, s=50, c='black')
+    ax.scatter(xcord3, ycord3, s=50, c='black')
     plt.xlabel('X1'); plt.ylabel('X2');
     plt.show()
 
@@ -85,9 +88,11 @@ def plotBestFit(dataSet,id,centroids):
 
 if __name__=='__main__':
 
-    dataSet_times_f=pt.get_times_f()#  [figture1 figture2]  次数 f
+    db = DB.DB()
+    ft = features.feature(db.loadData()["data"])
+    dataSet_times_f=ft.get_times_f()#  [figture1 figture2]  次数 f
 
-    dataSet_b_f = pt.get_b_f()
+    dataSet_b_f = ft.get_b_f()
 #   print randCent(dataSet,2)
 #   print dataSet
 

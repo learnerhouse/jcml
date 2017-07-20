@@ -9,30 +9,37 @@ import json, models
 # Create your views here.
 
 def index(request):
-#   dataSet=pt.getDataset()
-
     vr = models.VisitRecord.objects.all().values_list('user_id','bkj_id','time_stamp')
     ft = features.feature(vr)
     f,b = ft.sigma_reverse_dx()
-    dataSet_times_f=ft.get_times_f()#  [figture1 figture2]  次数 f
-    dataSet_b_f = ft.get_b_f()
+    dataSet_times_f , userId_time_f=ft.get_times_f()#  [figture1 figture2]  次数 f
+    dataSet_b_f , userId_b_f= ft.get_b_f()
     print dataSet_times_f
-    a=[];b=[];cf1=[];cf2=[];bf1=[];bf2=[]
+    a=[];b=[];cf1=[];userId_cf1=[];cf2=[];userId_cf2=[];bf1=[];userId_bf1=[];bf2=[];userId_bf2=[]
+
     a, b,ids=km.kMeans(dataSet_times_f,2)
     for id in range(len(dataSet_times_f)):
-        if id in ids:
+        if id in ids[0]:
             cf1.append(dataSet_times_f[id])
+            userId_cf1.append(userId_time_f[id])
         else:
             cf2.append(dataSet_times_f[id])
+            userId_cf2.append(userId_time_f[id])
 
     a, b,ids=km.kMeans(dataSet_b_f,2)
     for id in range(len(dataSet_b_f)):
-        if id in ids:
+        if id in ids[0]:
             bf1.append(dataSet_b_f[id])
+            userId_bf1.append(userId_b_f[id])
         else:
             bf2.append(dataSet_b_f[id])
-
-    return render(request,'jc/index.html',{'cf1':cf1,'cf2':cf2,'bf1':bf1,'bf2':bf2})
+            userId_bf2.append(userId_b_f[id])
+    ret = {
+           'cf1':cf1,'cf2':cf2,'bf1':bf1,'bf2':bf2,
+           'userId_cf1':userId_cf1,'userId_cf2':userId_cf2,
+           'userId_bf1':userId_bf1,'userId_bf2':userId_bf2
+           }
+    return render(request,'jc/index.html',{'ret':ret})
 
 def article_page(request, article_id):
     article = models.Article.objects.get(pk=article_id)

@@ -41,14 +41,15 @@ class feature:
         f = {}; tmp = {};lastB={};b = {}
         for cell in self.data:
             if tmp.has_key(str(cell[0])):
-                f[str(cell[0])] += 3600/abs(float(cell[2])-tmp[str(cell[0])])
-                if abs(int(cell[1]) - lastB[str(cell[0])]) == 1:
-                    b[str(cell[0])] += b[str(cell[0])]-1
-                elif int(cell[1]) - lastB[str(cell[0])] == 0:
-                    b[str(cell[0])] += 1
-                else:  pass
-                tmp[str(cell[0])] = float(cell[2])
-                lastB[str(cell[0])] = int(cell[1])
+                if float(cell[2])-tmp[str(cell[0])] !=0:
+                    f[str(cell[0])] += 3600/abs(float(cell[2])-tmp[str(cell[0])])
+                    if abs(int(cell[1]) - lastB[str(cell[0])]) == 1:
+                        b[str(cell[0])] += b[str(cell[0])]-1
+                    elif int(cell[1]) - lastB[str(cell[0])] == 0:
+                        b[str(cell[0])] += 1
+                    else:  pass
+                    tmp[str(cell[0])] = float(cell[2])
+                    lastB[str(cell[0])] = int(cell[1])
             else:
                 f[str(cell[0])] = 0.0
                 b[str(cell[0])] = 2
@@ -63,28 +64,25 @@ class feature:
 
     #data = db["jcml"].find()[0]
 
-
-
-
-
-
     def get_times_f(self):
         x,y = self.fixData2xy(self.datestart,self.dateend)
         xnumbers = self.countSameIds(x)      # 和异常度成正比{userId:times} 在制定的时间内
         ft,b = self.sigma_reverse_dx()       # 和连续出现的点的时间间隔成反比{userId,sgma(1/dx)}
-        ret = []
+        ret = [];userId_f =[]
         for i in range(len(xnumbers.values())):
             ret.append([xnumbers.values()[i],ft.values()[i]])
-        return ret
+            userId_f.append([xnumbers.values()[i],float(ft.keys()[i])])
+        return ret,userId_f
 
     def get_b_f(self):
-        ret = []
+        ret = [];userId_f =[]
         x,y = self.fixData2xy(self.datestart,self.dateend)
         ft,b = self.sigma_reverse_dx()   # 和连续出现的点的时间间隔成反比{userId,sgma(1/dx)}
         xnumbers = self.countSameIds(x)      # 和异常度成正比{userId:times} 在制定的时间内
         for i in range(len(xnumbers.values())):
             ret.append([b.values()[i],ft.values()[i]])
-        return ret
+            userId_f.append([xnumbers.values()[i],float(ft.keys()[i])])
+        return ret,userId_f
 
 
     def getDataset(self):

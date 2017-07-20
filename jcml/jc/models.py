@@ -18,6 +18,7 @@ class VisitRecord(models.Model):
     user_id = models.IntegerField(null=True)
     bkj_id = models.IntegerField(null=True)
     time_stamp = models.CharField(max_length=64,default='0')
+    is_crawler = models.CharField(max_length=32,default='0')
 
     def __unicode__(self):
         return self.user_id
