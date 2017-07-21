@@ -49,7 +49,7 @@ def kMeans(dataSet, k, distMeas=distEclud, createCent=randCent):
 
         for cent in range(k):#recalculate centroids
             indexs = nonzero(array(clusterId_distances)[:,0]==cent)[0]
-            ptsInClust = array([0,0])
+            ptsInClust = array([0.0,0.0])
             for index in indexs:
                 ptsInClust += array(dataSet[index])          #get all the point in this cluster
             centroids[cent,:] = ptsInClust/len(indexs) #assign centroid to mean

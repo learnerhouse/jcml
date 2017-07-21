@@ -37,12 +37,15 @@ class feature:
                 x[id]=1
         return x
 
+    threshold = 3600.0
     def sigma_reverse_dx (self):#data 要按照时间排序
         f = {}; tmp = {};lastB={};b = {}
         for cell in self.data:
             if tmp.has_key(str(cell[0])):
-                if float(cell[2])-tmp[str(cell[0])] !=0:
-                    f[str(cell[0])] += 3600/abs(float(cell[2])-tmp[str(cell[0])])
+                if float(cell[2])-tmp[str(cell[0])] ==0:
+                    f[str(cell[0])] += self.threshold/0.5
+                else:
+                    f[str(cell[0])] += self.threshold/abs(float(cell[2])-tmp[str(cell[0])])
                     if abs(int(cell[1]) - lastB[str(cell[0])]) == 1:
                         b[str(cell[0])] += b[str(cell[0])]-1
                     elif int(cell[1]) - lastB[str(cell[0])] == 0:

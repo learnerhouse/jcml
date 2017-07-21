@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from jc.model import features,KMeans as km
 import json, models
+from numpy import *
 
 # Create your views here.
 
@@ -16,24 +17,34 @@ def index(request):
     dataSet_b_f , userId_b_f= ft.get_b_f()
     print dataSet_times_f
     a=[];b=[];cf1=[];userId_cf1=[];cf2=[];userId_cf2=[];bf1=[];userId_bf1=[];bf2=[];userId_bf2=[]
-
+    flage = 0
     a, b,ids=km.kMeans(dataSet_times_f,2)
+
+    if array(a)[0][1] < array(a)[1][1]: flage = 0
+    else:flage=1
     for id in range(len(dataSet_times_f)):
-        if id in ids[0]:
+        if id in ids[flage]:
             cf1.append(dataSet_times_f[id])
             userId_cf1.append(userId_time_f[id])
+            models.VisitRecord.objects.filter(user_id=int(userId_time_f[id][1])).update(is_crawler=0)
         else:
             cf2.append(dataSet_times_f[id])
             userId_cf2.append(userId_time_f[id])
+            models.VisitRecord.objects.filter(user_id=int(userId_time_f[id][1])).update(is_crawler=1)
 
     a, b,ids=km.kMeans(dataSet_b_f,2)
+
+    if array(a)[0][1] < array(a)[1][1]: flage = 0
+    else:flage=1
     for id in range(len(dataSet_b_f)):
-        if id in ids[0]:
+        if id in ids[flage]:
             bf1.append(dataSet_b_f[id])
             userId_bf1.append(userId_b_f[id])
         else:
             bf2.append(dataSet_b_f[id])
             userId_bf2.append(userId_b_f[id])
+
+#    models.VisitRecord.objects.filter(user_id=)
     ret = {
            'cf1':cf1,'cf2':cf2,'bf1':bf1,'bf2':bf2,
            'userId_cf1':userId_cf1,'userId_cf2':userId_cf2,

@@ -33,7 +33,7 @@
         zlevel: 1
     },
     legend: {
-        data:['爬虫','非爬虫','userId1','userId2']
+        data:['爬虫','非爬虫']
     },
     toolbox: {
         show : true,
@@ -68,7 +68,7 @@
                 return  {{ ret.cf2 }};
             })()
         },
-        {
+ /*       {
             name:'userId1',
             type:'scatter',
             large: true,
@@ -77,7 +77,7 @@
                 //console.log({{ ret.userId_cf1 }})
                 return  {{ ret.userId_cf1 }};
             })()
-        },
+        },*/
         {
             name:'非爬虫',
             type:'scatter',
@@ -88,7 +88,7 @@
                 return {{ ret.cf1 }};
             })()
         },
-        {
+/*        {
             name:'userId2',
             type:'scatter',
             large: true,
@@ -97,7 +97,7 @@
                 console.log({{ ret.userId_cf2 }})
                 return  {{ ret.userId_cf2 }};
             })()
-        },
+        },*/
     ]
 };
         // 使用刚指定的配置项和数据显示图表。
