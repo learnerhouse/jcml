@@ -90,9 +90,9 @@ if __name__=='__main__':
 
     db = DB.DB()
     ft = features.feature(db.loadData()["data"])
-    dataSet_times_f=ft.get_times_f()#  [figture1 figture2]  次数 f
+    dataSet_times_f,_=ft.get_times_f()#  [figture1 figture2]  次数 f
 
-    dataSet_b_f = ft.get_b_f()
+    dataSet_b_f,_ = ft.get_b_f()
 #   print randCent(dataSet,2)
 #   print dataSet
 
@@ -100,12 +100,12 @@ if __name__=='__main__':
     a=[]
     b=[]
     a, b,id=kMeans(dataSet_b_f,2)
-    plotBestFit(dataSet_b_f,id,a)
+    plotBestFit(dataSet_b_f,id[0],a)
 
     a1=[]
     b1=[]
     a1, b1,id1=kMeans(dataSet_times_f,2)
-    plotBestFit(dataSet_times_f,id1,a1)
+    plotBestFit(dataSet_times_f,id1[0],a1)
 
 
 

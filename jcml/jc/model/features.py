@@ -22,8 +22,8 @@ class feature:
         x=[]
         y=[]
         for cell in self.data:
-            # if float(cell[2])>=time.mktime(time.strptime(dateStart,'%Y-%m-%d %H:%M:%S')) \
-            #         and float(cell[2])<time.mktime(time.strptime(dateEnd,'%Y-%m-%d %H:%M:%S')):
+             # if float(cell[2])>=time.mktime(time.strptime(dateStart,'%Y-%m-%d %H:%M:%S')) \
+             #         and float(cell[2])<time.mktime(time.strptime(dateEnd,'%Y-%m-%d %H:%M:%S')):
                 x.append(cell[0])
                 y.append(cell[2])
         return x,y
@@ -37,7 +37,7 @@ class feature:
                 x[id]=1
         return x
 
-    threshold = 3600.0
+    threshold = 60.0
     def sigma_reverse_dx (self):#data 要按照时间排序
         f = {}; tmp = {};lastB={};b = {}
         for cell in self.data:
@@ -47,7 +47,7 @@ class feature:
                 else:
                     f[str(cell[0])] += self.threshold/abs(float(cell[2])-tmp[str(cell[0])])
                     if abs(int(cell[1]) - lastB[str(cell[0])]) == 1:
-                        b[str(cell[0])] += b[str(cell[0])]-1
+                        b[str(cell[0])] += 2
                     elif int(cell[1]) - lastB[str(cell[0])] == 0:
                         b[str(cell[0])] += 1
                     else:  pass
@@ -55,13 +55,13 @@ class feature:
                     lastB[str(cell[0])] = int(cell[1])
             else:
                 f[str(cell[0])] = 0.0
-                b[str(cell[0])] = 2
+                b[str(cell[0])] = 1
                 tmp[str(cell[0])] = float(cell[2])
                 lastB[str(cell[0])] = int(cell[1])
         return f,b
 
 
-    datestart = "2017-07-04 00:00:00";dateend = "2017-07-19 23:00:00"
+    datestart = "2017-07-18 00:00:00";dateend = "2017-07-24 23:00:00"
 
     #data = load("data.json")
 
@@ -72,9 +72,9 @@ class feature:
         xnumbers = self.countSameIds(x)      # 和异常度成正比{userId:times} 在制定的时间内
         ft,b = self.sigma_reverse_dx()       # 和连续出现的点的时间间隔成反比{userId,sgma(1/dx)}
         ret = [];userId_f =[]
-        for i in range(len(xnumbers.values())):
-            ret.append([xnumbers.values()[i],ft.values()[i]])
-            userId_f.append([xnumbers.values()[i],float(ft.keys()[i])])
+        for i in xnumbers.keys():
+            ret.append([xnumbers[i],ft[str(i)]])
+            userId_f.append(i)
         return ret,userId_f
 
     def get_b_f(self):
@@ -83,7 +83,7 @@ class feature:
         ft,b = self.sigma_reverse_dx()   # 和连续出现的点的时间间隔成反比{userId,sgma(1/dx)}
         xnumbers = self.countSameIds(x)      # 和异常度成正比{userId:times} 在制定的时间内
         for i in range(len(xnumbers.values())):
-            ret.append([b.values()[i],ft.values()[i]])
+            ret.append([b.values()[i]/xnumbers.values()[i],ft.values()[i]])
             userId_f.append([xnumbers.values()[i],float(ft.keys()[i])])
         return ret,userId_f
 

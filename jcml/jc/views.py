@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from jc.model import features,KMeans as km
 import json, models
+import time
 from numpy import *
 
 # Create your views here.
@@ -26,11 +27,17 @@ def index(request):
         if id in ids[flage]:
             cf1.append(dataSet_times_f[id])
             userId_cf1.append(userId_time_f[id])
-            models.VisitRecord.objects.filter(user_id=int(userId_time_f[id][1])).update(is_crawler=0)
+            models.VisitRecord.objects.filter(user_id=int(userId_time_f[id]))\
+                .update(is_crawler=0,
+                        visit_times=dataSet_times_f[id][0],
+                        visit_freq=dataSet_times_f[id][1])
         else:
             cf2.append(dataSet_times_f[id])
             userId_cf2.append(userId_time_f[id])
-            models.VisitRecord.objects.filter(user_id=int(userId_time_f[id][1])).update(is_crawler=1)
+            models.VisitRecord.objects.filter(user_id=int(userId_time_f[id])).update(is_crawler=1)
+            models.VisitRecord.objects.filter(user_id=int(userId_time_f[id]))\
+                            .update(visit_times=dataSet_times_f[id][0],
+                                    visit_freq=dataSet_times_f[id][1])
 
     a, b,ids=km.kMeans(dataSet_b_f,2)
 
@@ -59,10 +66,10 @@ def article_page(request, article_id):
 def edited_page(request,edited_id):
     return  render(request,'jc/edited_page.html')
 
+
 def add_visit_record (request,user_id,bkj_id,time_stamp ):
     models.VisitRecord.objects.create(user_id=user_id,bkj_id=bkj_id,time_stamp=time_stamp)
-    records = models.VisitRecord.objects.all()
-    return render(request,'jc/add_visit_record.html',{'records':records})
+    return render(request,'jc/add_visit_record.html')
 
 def show_visit_record(request):
     records = models.VisitRecord.objects.all()
