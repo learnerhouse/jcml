@@ -20,4 +20,5 @@ from jc import views as jv
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^index/', include('jc.urls',namespace='jc')),
+    url(r'^ao/', include('jc.urls',namespace='ao')),
 ]

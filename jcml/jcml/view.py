@@ -1,4 +1,4 @@
-from jc.model import crawlerModel
+from spider.models import crawlerModel
 
 entry = crawlerModel(test_key='arthur')
 entry.test_value = 'Wang'
