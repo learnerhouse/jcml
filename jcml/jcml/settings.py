@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'jcml.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'jcml',
-        'USER': 'baoer',
-        'PASSWORD': 'baoer_07_19',
-        'HOST': '139.196.106.83',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',   # Or an IP Address that your DB is hosted on
+        'PORT': '',
     }
 }
 
