@@ -5,6 +5,8 @@ from django.contrib import admin
 
 # Register your models here.
 
-from models import Article
+from jc.models import Article ,VisitRecord
+
 
 admin.site.register(Article)
+admin.site.register(VisitRecord)

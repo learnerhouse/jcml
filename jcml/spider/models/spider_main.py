@@ -16,8 +16,6 @@ class SpiderMain(object):
         self.parser = html_parser.HtmlParser()
         self.outputer = html_outputer.HtmlOutputer()
 
-
-
     def craw(self, root_url):
         count = 1
         self.urls.add_new_url(root_url)

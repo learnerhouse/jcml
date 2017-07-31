@@ -2,12 +2,13 @@
 '''
 @author: hakuri
 '''
-import json
 
-from numpy import *
 import matplotlib.pyplot as plt
-import features as pt
-import DB,features
+from numpy import *
+
+import jc.ml.DB
+import jc.ml.preprocess.features
+
 
 def loadDataSet(fileName):      #general function to parse tab -delimited floats
     dataMat = []                #assume last column is target value
@@ -88,15 +89,14 @@ def plotBestFit(dataSet,id,centroids):
 
 if __name__=='__main__':
 
-    db = DB.DB()
-    ft = features.feature(db.loadData()["data"])
+    db = jc.ml.DB.DB()
+    ft = jc.ml.preprocess.features.feature(db.loadData()["data"])
     dataSet_times_f,_=ft.get_times_f()#  [figture1 figture2]  次数 f
 
     dataSet_b_f,_ = ft.get_b_f()
 #   print randCent(dataSet,2)
 #   print dataSet
 
-    print  kMeans(dataSet_times_f,2)
     a=[]
     b=[]
     a, b,id=kMeans(dataSet_b_f,2)

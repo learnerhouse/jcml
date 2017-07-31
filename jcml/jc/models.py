@@ -21,6 +21,8 @@ class VisitRecord(models.Model):
     is_crawler = models.CharField(max_length=32,default='0')
     visit_freq = models.CharField(max_length=64,default='0')
     visit_times = models.IntegerField(null=True)
+    reverse_deta = models.CharField(max_length=64,default='0')  # 1/(a2-a1)
+    serially = models.IntegerField(null=True)
     update_stamp = models.TimeField(null=True)
     def __unicode__(self):
         return self.user_id

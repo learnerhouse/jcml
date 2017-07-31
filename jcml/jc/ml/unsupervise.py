@@ -1,10 +1,12 @@
 # --*-- coding=utf-8 --*--
-import numpy
 import time
-from pymongo import MongoClient
-import features as pt
+
 import matplotlib.pyplot as plt
+import numpy
 from sklearn import linear_model
+
+from jc.ml.preprocess import features as pt
+
 
 def fixData2xy (data,dateStart,dateEnd):
     x=[]

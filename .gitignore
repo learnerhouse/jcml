@@ -1,2 +1,4 @@
 ##ignore this file##
 jcml/jcml/settings.py
+jcml/ao/os/local.py
+jcml/ao/os/weeklocal.py
