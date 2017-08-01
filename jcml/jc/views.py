@@ -2,15 +2,23 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
+from ml.preprocess import features
 from numpy import *
 
 import jc.models as models
-from jc.ml.kmeans import KMeans as km
-from jc.ml.preprocess import features
+from ml.kmeans import KMeans as km
+from ml.preprocess.modeling import modeling
+from ml.preprocess.data_clean import data_clean
 
 # Create your views here.
 
+
 def index(request):
+    md = modeling(models.VisitRecord,
+                  ['id','user_id','count(id)','sum(reverse_deta)'],
+                  'jc_visitrecord','GROUP BY user_id ORDER BY sum(reverse_deta) desc')
+    dc = data_clean()
+    dataSet,resaults = md.getDataSet(dc.removeIdField)
     vr = models.VisitRecord.objects.all().values_list('user_id','bkj_id','time_stamp')
     ft = features.feature(vr)
     f,b = ft.sigma_reverse_dx()
@@ -65,10 +73,10 @@ def edited_page(request,edited_id):
 
 
 def add_visit_record (request,user_id,bkj_id,time_stamp ):
-    resaults = models.VisitRecord\
-        .objects.raw('select id, time_stamp from jc_visitrecord where user_id = '+user_id+' order by time_stamp desc')
 
-    if len(list(resaults)) != 0:
+    md = modeling(models.VisitRecord,['id','time_stamp'],'jc_visitrecord','where user_id = '+user_id+' order by time_stamp desc')
+    _,resaults = md.getDataSet()
+    if len(resaults) != 0:
         models.VisitRecord.objects.create(user_id=user_id,
                                           bkj_id=bkj_id,
                                           time_stamp=time_stamp,

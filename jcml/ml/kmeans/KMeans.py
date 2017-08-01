@@ -6,8 +6,7 @@
 import matplotlib.pyplot as plt
 from numpy import *
 
-import jc.ml.DB
-import jc.ml.preprocess.features
+import jcml.sys.DB
 
 
 def loadDataSet(fileName):      #general function to parse tab -delimited floats
@@ -89,8 +88,8 @@ def plotBestFit(dataSet,id,centroids):
 
 if __name__=='__main__':
 
-    db = jc.ml.DB.DB()
-    ft = jc.ml.preprocess.features.feature(db.loadData()["data"])
+    db = jcml.sys.DB.DB()
+    ft = ml.preprocess.features.feature(db.loadData()["data"])
     dataSet_times_f,_=ft.get_times_f()#  [figture1 figture2]  次数 f
 
     dataSet_b_f,_ = ft.get_b_f()

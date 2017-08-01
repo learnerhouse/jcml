@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy
 from sklearn import linear_model
 
-from jc.ml.preprocess import features as pt
+from ml.preprocess import features as pt
 
 
 def fixData2xy (data,dateStart,dateEnd):
@@ -49,11 +49,11 @@ y_view = []
 for value in y:
     y_view.append(time.strftime("%Y/%m/%d", time.localtime(float(value))))
 
-print x,y_view
+print (x,y_view)
 
 xnumbers = countSameIds(x)      # 和异常度成正比{userId:times} 在制定的时间内
 #sorted(xnumbers.keys())
-print xnumbers
+print (xnumbers)
 
 
 
@@ -78,7 +78,7 @@ ret = []
 for i in range(len(xnumbers.values())):
     ret.append([xnumbers.values()[i],ft.values()[i]])
 
-print ret
+print (ret)
 
 # weight=[1 for i in range(len(ft.values()))]
 # print weight

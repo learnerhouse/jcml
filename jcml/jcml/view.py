@@ -7,4 +7,4 @@ entry.save()
 
 
 for entry in crawlerModel.objects:
-    print entry.test_key
+    print (entry.test_key)
