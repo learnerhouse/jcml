@@ -22,4 +22,7 @@ class data_clean:
         if key == 'id':
             return None
         else:
-            return value
+            return key,value
+
+
+

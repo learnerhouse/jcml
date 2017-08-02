@@ -6,19 +6,43 @@ from ml.preprocess import features
 from numpy import *
 
 import jc.models as models
+from jc.baoer.baoer import baoer
 from ml.kmeans import KMeans as km
 from ml.preprocess.modeling import modeling
 from ml.preprocess.data_clean import data_clean
-
+from ml.preprocess.mining import mining
+import threading
 # Create your views here.
 
 
 def index(request):
+    # md = modeling(models.VisitRecord,
+    #               ['id','user_id','bkj_id','count(id)','sum(reverse_deta)'],
+    #               'jc_visitrecord','GROUP BY user_id ORDER BY sum(reverse_deta) desc')
     md = modeling(models.VisitRecord,
-                  ['id','user_id','count(id)','sum(reverse_deta)'],
-                  'jc_visitrecord','GROUP BY user_id ORDER BY sum(reverse_deta) desc')
-    dc = data_clean()
-    dataSet,resaults = md.getDataSet(dc.removeIdField)
+                  ['id','user_id','bkj_id','time_stamp','reverse_deta'],
+                  'jc_visitrecord','where time_stamp <1501212471009  ','ORDER BY time_stamp desc ')
+    md2 = modeling(models.VisitRecord,
+                  ['id','user_id','bkj_id','time_stamp','reverse_deta'],
+                  'jc_visitrecord','where time_stamp >1501212471009 ','ORDER BY time_stamp desc ')
+
+    # dc = data_clean()
+    # md.set_fieldPreProcess_func(dc.removeIdField)  # 数据预处理
+    bao = baoer()
+    md.set_mining_func(bao.find_serially)          # 数据特征处理
+
+    #dataSet,resaults = md.getDataSet()             # 执行数据分析
+
+    threads = []
+    t1 = threading.Thread(target=md.getDataSet,args=())
+    threads.append(t1)
+    t2 = threading.Thread(target=md2.getDataSet,args=())
+    threads.append(t2)
+
+    for t in threads:
+        t.setDaemon(True)
+        t.start()
+
     vr = models.VisitRecord.objects.all().values_list('user_id','bkj_id','time_stamp')
     ft = features.feature(vr)
     f,b = ft.sigma_reverse_dx()
