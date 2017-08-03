@@ -12,6 +12,7 @@ from ml.preprocess.modeling import modeling
 from ml.preprocess.data_clean import data_clean
 from ml.preprocess.mining import mining
 import threading
+from ml.preprocess.process_unit import process_unit
 # Create your views here.
 
 
@@ -19,30 +20,19 @@ def index(request):
     # md = modeling(models.VisitRecord,
     #               ['id','user_id','bkj_id','count(id)','sum(reverse_deta)'],
     #               'jc_visitrecord','GROUP BY user_id ORDER BY sum(reverse_deta) desc')
-    md = modeling(models.VisitRecord,
-                  ['id','user_id','bkj_id','time_stamp','reverse_deta'],
-                  'jc_visitrecord','where time_stamp <1501212471009  ','ORDER BY time_stamp desc ')
-    md2 = modeling(models.VisitRecord,
-                  ['id','user_id','bkj_id','time_stamp','reverse_deta'],
-                  'jc_visitrecord','where time_stamp >1501212471009 ','ORDER BY time_stamp desc ')
+    md = modeling(['id','user_id','bkj_id','time_stamp','reverse_deta'],
+                  'jc_visitrecord','where id !=0 ','ORDER BY time_stamp desc ')
 
     # dc = data_clean()
     # md.set_fieldPreProcess_func(dc.removeIdField)  # 数据预处理
     bao = baoer()
-    md.set_mining_func(bao.find_serially)          # 数据特征处理
+    md.set_mining_func(bao.find_serially)            # 数据特征处理
 
-    #dataSet,resaults = md.getDataSet()             # 执行数据分析
+    #dataSet,resaults = md.getDataSet()              # 执行数据分析
 
-    threads = []
-    t1 = threading.Thread(target=md.getDataSet,args=())
-    threads.append(t1)
-    t2 = threading.Thread(target=md2.getDataSet,args=())
-    threads.append(t2)
-
-    for t in threads:
-        t.setDaemon(True)
-        t.start()
-
+    pu = process_unit(md)
+    pu.run()
+    pu_dataSet = pu.get_data_set()                   # 添加结束判断标准
     vr = models.VisitRecord.objects.all().values_list('user_id','bkj_id','time_stamp')
     ft = features.feature(vr)
     f,b = ft.sigma_reverse_dx()
