@@ -5,7 +5,7 @@ import jc.models as models
 import copy
 import threading
 
-class process_unit:
+class mysql_process_unit:
 
     tableName = ''
     sql = ''
@@ -25,14 +25,10 @@ class process_unit:
 
     def run(self):
         start = self.minId ; end = self.maxId
-        for i in range(self.minId ,self.maxId ,self.data_unit_size):
+        for i in range(self.minId ,self.maxId+1 ,self.data_unit_size):
             start = i; end = i + self.data_unit_size
-            sql = "select "+ \
-                  self.modeling.fieldstr + \
-                  " from " + self.modeling.tableName +" " +\
-            self.modeling.where + " and "+ "id < " + str(end) + " and id > "+ str(start)+" "+ \
-            self.modeling.show_format
-            self.modeling.sql = sql
+            self.sql = "select "+ self.modeling.fieldstr +  " from " + self.modeling.tableName +" " + self.modeling.where + " and "+ "id < " + str(end) + " and id >= "+ str(start)+" "+ self.modeling.show_format
+            self.modeling.sql = self.sql
             self.modeling.retMatrix = []
             md = copy.copy(self.modeling)
             self.modelings.append(md)
@@ -40,6 +36,8 @@ class process_unit:
             self.threads.append(t)
             t.setDaemon(True)
             t.start()
+        for t in self.threads:
+            t.join()
 
     def get_data_set(self):
         for md in self.modelings:

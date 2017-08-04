@@ -37,7 +37,7 @@ class modeling:
                 if hasattr(obj,field):
                     if self.fieldPreProcess == None:
 
-                        self.data_flow.add_history_data(field,getattr(obj,field))
+                        self.data_flow.add_history_colume(field,getattr(obj,field))
                         self.data_flow.set(field,getattr(obj,field))
                         self.data_flow = self.mining_func(
                             self.data_flow
@@ -46,7 +46,7 @@ class modeling:
 
                     elif self.fieldPreProcess(field,getattr(obj,field))!= None:
 
-                        self.data_flow.add_history_data(field,getattr(obj,field))
+                        self.data_flow.add_history_colume(field,getattr(obj,field))
                         self.data_flow.set(field,getattr(obj,field))
                         self.data_flow = self.mining_func(
                             self.data_flow
