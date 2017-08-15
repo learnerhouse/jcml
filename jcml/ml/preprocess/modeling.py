@@ -29,7 +29,8 @@ class modeling:
 
     def getDataSet (self,fieldNames=None):
         self.dataSet = list(models.VisitRecord.objects.raw( self.sql ))
-        row = []
+        self.data_flow.clear()
+        row = []; self.retMatrix=[]
         if fieldNames == None:
             fieldNames = self.selectFields
         for obj in self.dataSet:

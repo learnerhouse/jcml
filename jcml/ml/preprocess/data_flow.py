@@ -18,6 +18,24 @@ class data_flow:
     latest_row = []
     return_ans = []
 
+    # def __index__(self):
+    #     self.tatol_element = 0
+    #     self.history_colume = {}
+    #     self.key = None
+    #     self.value = None
+    #     self.row_num = 0
+    #     self.is_continue = True
+    #     self.length = 3
+    #     self.colume_num = 0
+    #     self.index = 1
+    #     self.history_table = []
+    #     self.local_colume = {}
+    #     self.is_row_num_equal_length = False
+    #     self.is_row_num_change = False
+    #     self.row = []
+    #     self.latest_row = []
+    #     self.return_ans = []
+
     def clear(self):
         self.tatol_element = 0
         self.history_colume = {}
@@ -25,9 +43,16 @@ class data_flow:
         self.value = None
         self.row_num = 0
         self.is_continue = True
-        self.length = 0
+        self.length = 3
         self.colume_num = 0
         self.index = 1
+        self.history_table = []
+        self.local_colume = {}
+        self.is_row_num_equal_length = False
+        self.is_row_num_change = False
+        self.row = []
+        self.latest_row = []
+        self.return_ans = []
 
     def add_history_colume(self, key, val):
         if key != None:
@@ -37,28 +62,22 @@ class data_flow:
                 if self.row_num==0:
                     self.history_table.append(self.row)
                     self.latest_row = self.row
-                    self.row = []
-                    self.row_num += 1
-                self.row.append(val)
-                if self.index % self.colume_num == 0 :
+                    self.row = [];self.index = 0;self.row_num += 1;self.row.append(val)
+                elif self.index % self.colume_num == 0 :
                     self.history_table.append(self.row)
                     self.latest_row = self.row
-                    self.row = []
-                    self.row_num += 1
+                    self.row = [];self.index = 0;self.row_num += 1;self.row.append(val)
                     if self.is_row_num_equal_length:
                         self.row_num = self.length
                     self.get_local_colume()
                     self.is_row_num_change = True
-                    self.index = 0
-
+                else:
+                    self.row.append(val)
                 self.history_colume[key].append(val)
             else:
-                self.history_colume[key] = []
-                self.local_colume[key] = []
-                self.local_colume[key].append(val)
-                self.history_colume[key].append(val)
-                self.row.append(val)
-                self.colume_num += 1
+                self.history_colume[key] = [];self.local_colume[key] = []
+                self.local_colume[key].append(val);self.history_colume[key].append(val)
+                self.row.append(val);self.colume_num += 1
 
 
     def set(self, key, val):

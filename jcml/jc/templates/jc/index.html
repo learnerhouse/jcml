@@ -8,8 +8,20 @@
 </head>
 <body>
 <h1>hello jcml</h1>
-<div id="tf" style="width: 600px;height:400px;"></div>
-<div id="bf" style="width: 600px;height:400px;"></div>
+<div id="tf" class="tf" style="width: 600px;height:400px;"></div>
+<div id="bf" class="bf" style="width: 600px;height:400px;"></div>
+<style type="text/css">
+.download {
+    top: 150px;
+    left: 600px;
+    position: absolute;
+}
+</style>
+<div class="download">
+    <a href="{% static "一周的图数据.csv" %}">表红点坐标表格</a>
+    <a href="{% static "最近一周按次数排序.csv" %}">按次数排序</a>
+    <a href="{% static "最近一周按频率排序.csv" %}" >按频率排序</a>
+</div>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('tf'));
@@ -64,42 +76,23 @@
             large: true,
             symbolSize: 3,
             data: (function () {
-                return; {{ ret.cf2 }}
+
                 console.log({{ ret.cf2 }});
+                return {{ ret.cf2 }};
 
             })()
         },
- /*       {
-            name:'userId1',
-            type:'scatter',
-            large: true,
-            symbolSize: 3,
-            data: (function () {
-                //console.log({{ ret.userId_cf1 }})
-                return  {{ ret.userId_cf1 }};
-            })()
-        },*/
         {
             name:'非爬虫',
             type:'scatter',
             large: true,
             symbolSize: 2,
             data: (function () {
-                return; {{ ret.cf1 }}
                 console.log({{ ret.cf1 }});
+                return {{ ret.cf1 }};
 
             })()
         },
-/*        {
-            name:'userId2',
-            type:'scatter',
-            large: true,
-            symbolSize: 3,
-            data: (function () {
-                console.log({{ ret.userId_cf2 }})
-                return  {{ ret.userId_cf2 }};
-            })()
-        },*/
     ]
 };
         // 使用刚指定的配置项和数据显示图表。
@@ -158,8 +151,9 @@
             large: true,
             symbolSize: 3,
             data: (function () {
-                return; {{ ret.bf2 }}
+
                 console.log({{ ret.bf2 }});
+                return {{ ret.bf2 }};
 
             })()
         },
@@ -169,8 +163,8 @@
             large: true,
             symbolSize: 2,
             data: (function () {
-                return; {{ ret.bf1 }}
                 console.log({{ ret.bf1 }});
+                return {{ ret.bf1 }};
 
             })()
         }
